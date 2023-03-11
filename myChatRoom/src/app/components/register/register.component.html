@@ -1,0 +1,19 @@
+<div class="body">
+  <div class="login">
+    <form [formGroup]="form" (ngSubmit)="signUp()">
+      <img src="./assets/img/user-profile.png" alt="userImg" width="50%">
+      <h1>Register to Chat Room</h1>
+      <mat-form-field class="FieldWidth" appearance="fill">
+        <mat-label>Email</mat-label>
+        <input type="email" matInput autocomplete="off" formControlName="email">
+      </mat-form-field>
+      <mat-form-field class="FieldWidth" appearance="fill">
+        <mat-label>Password</mat-label>
+        <input type="password" matInput autocomplete="off" formControlName="password">
+      </mat-form-field>
+      <button type="submit" class="FieldWidth" mat-raised-button color="primary"
+        [disabled]="form.invalid">Register</button>
+      <p>Already have an account? <a href="/login">Sign in</a></p>
+    </form>
+  </div>
+</div>
