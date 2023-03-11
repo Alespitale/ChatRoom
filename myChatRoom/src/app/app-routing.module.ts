@@ -15,7 +15,11 @@ const routes: Routes = [
     component: ChatComponent,
     ...canActivate(() => redirectUnauthorizedTo(['/login'])),
   },
-  { path: 'sms-validation', component: SmsValidationComponent },
+  {
+    path: 'sms-validation',
+    component: SmsValidationComponent,
+    ...canActivate(() => redirectUnauthorizedTo(['/login'])),
+  },
 ];
 
 @NgModule({

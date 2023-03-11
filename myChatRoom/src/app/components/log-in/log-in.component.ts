@@ -64,7 +64,7 @@ export class LogInComponent implements OnInit {
     this.UserService.loginWithGoogle()
       .then((res) => {
         console.log(res);
-        this.router.navigate(['/chat']);
+        this.router.navigate(['/sms-validation']);
       })
       .catch((error) => {
         console.log(error);

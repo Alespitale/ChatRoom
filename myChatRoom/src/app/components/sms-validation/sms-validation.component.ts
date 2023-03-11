@@ -1,11 +1,13 @@
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.services';
 import { Router } from '@angular/router';
 import {
-  multiFactor, PhoneAuthProvider, PhoneMultiFactorGenerator,
-  RecaptchaVerifier
-} from "firebase/auth";
-
+  multiFactor,
+  PhoneAuthProvider,
+  PhoneMultiFactorGenerator,
+  RecaptchaVerifier,
+} from 'firebase/auth';
 
 @Component({
   selector: 'app-sms-validation',
@@ -13,7 +15,14 @@ import {
   styleUrls: ['./sms-validation.component.css'],
 })
 export class SmsValidationComponent implements OnInit {
-  constructor(private UserService: UserService, private router: Router) {}
+  
+  phoneFormControl = new FormControl('', [Validators.required, Validators.pattern(/^(?:(?:00)?\+549?)?0?(?:11|[2368]\d)(?:(?=\d{0,2}15)\d{2})??\d{8}$/)]);
+
+  constructor(
+    private UserService: UserService,
+    private router: Router,
+  ) {
+  }
 
   ngOnInit(): void {}
 
@@ -26,6 +35,28 @@ export class SmsValidationComponent implements OnInit {
       .catch((error) => {
         console.log(error);
       });
+  }
+  validateSMS() {
+    // const phoneNumber = '+573003000000';
+    // const appVerifier = new RecaptchaVerifier('recaptcha-container');
+    // PhoneAuthProvider.verifyPhoneNumber(this.UserService.auth, phoneNumber, appVerifier)
+    //   .then((confirmationResult) => {
+    //     // SMS sent. Prompt user to type the code from the message, then sign the
+    //     // user in with confirmationResult.confirm(code).
+    //     const code = window.prompt('Please enter the verification code that was sent to your mobile device.');
+    //     confirmationResult.confirm(code).then((result) => {
+    //       // User signed in successfully.
+    //       const user = result.user;
+    //       // ...
+    //     }).catch((error) => {
+    //       // User couldn't sign in (bad verification code?)
+    //       // ...
+    //     });
+    //   }).catch((error) => {
+    //     // Error; SMS not sent
+    //     // ...
+    //   });
+    console.log('validateSMS');
   }
 
   //   const recaptchaVerifier = new RecaptchaVerifier('recaptcha-container-id', undefined, auth);

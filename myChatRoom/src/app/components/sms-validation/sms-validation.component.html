@@ -1,4 +1,15 @@
-<mat-card>
-  <mat-card-content>Simple card</mat-card-content>
-  <button (click)="logOut()">logOut</button>
-</mat-card>
+<div class="body">
+  <div class="login">
+    <form (ngSubmit)="validateSMS()">
+      <img src="./assets/img/sms.png" alt="userImg" width="50%">
+      <h1>Two step verification</h1>
+      <h4> Enter your mobile number starting with +54</h4>
+      <mat-form-field class="FieldWidth" appearance="fill">
+        <mat-label>Phone number</mat-label>
+        <input matInput autocomplete="off" [formControl]="phoneFormControl">
+      </mat-form-field>
+      <button type="submit" class="FieldWidth" mat-raised-button color="primary"
+        [disabled]="phoneFormControl.invalid">Send verification code</button>
+    </form>
+  </div>
+</div>
