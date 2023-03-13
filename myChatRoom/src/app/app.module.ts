@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 // Components
 import { LogInComponent } from './components/log-in/log-in.component';
@@ -40,6 +40,7 @@ import { SmsValidationComponent } from './components/sms-validation/sms-validati
     MatInputModule,
     MatButtonModule,
     ReactiveFormsModule,
+    FormsModule,
     MatSnackBarModule,
     RouterModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),

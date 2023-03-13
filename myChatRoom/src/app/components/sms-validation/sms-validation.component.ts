@@ -1,83 +1,91 @@
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.services';
 import { Router } from '@angular/router';
-import {
-  multiFactor,
-  PhoneAuthProvider,
-  PhoneMultiFactorGenerator,
-  RecaptchaVerifier,
-} from 'firebase/auth';
+import { WindowService } from 'src/app/services/window.services';
+
+import { Auth, RecaptchaVerifier } from '@angular/fire/auth';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-sms-validation',
   templateUrl: './sms-validation.component.html',
   styleUrls: ['./sms-validation.component.css'],
+  providers: [UserService, WindowService],
 })
 export class SmsValidationComponent implements OnInit {
-  
-  phoneFormControl = new FormControl('', [Validators.required, Validators.pattern(/^(?:(?:00)?\+549?)?0?(?:11|[2368]\d)(?:(?=\d{0,2}15)\d{2})??\d{8}$/)]);
+  country = new FormControl('', [
+    Validators.required,
+    Validators.pattern('[0-9]{1,2}'),
+  ]);
+  area = new FormControl('', [
+    Validators.required,
+    Validators.pattern('[0-9]{3}'),
+  ]);
+  prefix = new FormControl('', [
+    Validators.required,
+    Validators.pattern('[0-9]{3}'),
+  ]);
+  line = new FormControl('', [
+    Validators.required,
+    Validators.pattern('[0-9]{4}'),
+  ]);
+  verificationCode = new FormControl('', [
+    Validators.required,
+    Validators.pattern('[0-9]{6}'),
+  ]);
+
+  windowRef: any;
+  phoneNumber: any;
+  user: any;
 
   constructor(
-    private UserService: UserService,
-    private router: Router,
-  ) {
+    private win: WindowService,
+    private userSvc: UserService,
+    private auth: Auth,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.windowRef = this.win.windowRef;
+    this.windowRef.recaptchaVerifier = new RecaptchaVerifier(
+      'recaptcha-container',
+      {
+        size: 'normal',
+      },
+      this.auth
+    );
+    this.windowRef.recaptchaVerifier.render();
   }
 
-  ngOnInit(): void {}
+  e164(country: any, area: any, prefix: any, line: any) {
+    const num = country + area + prefix + line;
+    return `+${num}`;
+  }
 
-  logOut() {
-    this.UserService.logout()
-      .then((res) => {
-        console.log(res);
-        this.router.navigate(['/login']);
+  sendLoginCode() {
+    const appVerifier = this.windowRef.recaptchaVerifier;
+    const num = this.e164(
+      this.country.value,
+      this.area.value,
+      this.prefix.value,
+      this.line.value
+    );
+
+    this.userSvc
+      .phoneLogin({ phoneNumber: num, appVerifier })
+      .then((result) => {
+        this.windowRef.confirmationResult = result;
       })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-  validateSMS() {
-    // const phoneNumber = '+573003000000';
-    // const appVerifier = new RecaptchaVerifier('recaptcha-container');
-    // PhoneAuthProvider.verifyPhoneNumber(this.UserService.auth, phoneNumber, appVerifier)
-    //   .then((confirmationResult) => {
-    //     // SMS sent. Prompt user to type the code from the message, then sign the
-    //     // user in with confirmationResult.confirm(code).
-    //     const code = window.prompt('Please enter the verification code that was sent to your mobile device.');
-    //     confirmationResult.confirm(code).then((result) => {
-    //       // User signed in successfully.
-    //       const user = result.user;
-    //       // ...
-    //     }).catch((error) => {
-    //       // User couldn't sign in (bad verification code?)
-    //       // ...
-    //     });
-    //   }).catch((error) => {
-    //     // Error; SMS not sent
-    //     // ...
-    //   });
-    console.log('validateSMS');
+      .catch((error) => console.log(error));
   }
 
-  //   const recaptchaVerifier = new RecaptchaVerifier('recaptcha-container-id', undefined, auth);
-  // multiFactor(user).getSession()
-  //     .then(function (multiFactorSession) {
-  //         // Specify the phone number and pass the MFA session.
-  //         const phoneInfoOptions = {
-  //             phoneNumber: phoneNumber,
-  //             session: multiFactorSession
-  //         };
-
-  //         const phoneAuthProvider = new PhoneAuthProvider(auth);
-
-  //         // Send SMS verification code.
-  //         return phoneAuthProvider.verifyPhoneNumber(phoneInfoOptions, recaptchaVerifier);
-  //     }).then(function (verificationId) {
-  //         // Ask user for the verification code. Then:
-  //         const cred = PhoneAuthProvider.credential(verificationId, verificationCode);
-  //         const multiFactorAssertion = PhoneMultiFactorGenerator.assertion(cred);
-
-  //         // Complete enrollment.
-  //         return multiFactor(user).enroll(multiFactorAssertion, mfaDisplayName);
-  //     });
+  verifyLoginCode() {
+    this.windowRef.confirmationResult
+      .confirm(this.verificationCode.value)
+      .then((res: any) => {
+        this.user = res.user;
+        this.router.navigate(['/chat']);
+      })
+      .catch((err: any) => console.log(err, 'Incorrect code entered?'));
+  }
 }

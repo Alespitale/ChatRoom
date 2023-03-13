@@ -1,7 +1,6 @@
-import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
@@ -16,8 +15,6 @@ import { UserService } from 'src/app/services/user.services';
 })
 export class LogInComponent implements OnInit {
   form: FormGroup;
-
-  @Output() iniciar: EventEmitter<string> = new EventEmitter();
 
   constructor(
     private UserService: UserService,

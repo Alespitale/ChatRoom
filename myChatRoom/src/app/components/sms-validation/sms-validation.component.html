@@ -1,15 +1,32 @@
 <div class="body">
   <div class="login">
-    <form (ngSubmit)="validateSMS()">
-      <img src="./assets/img/sms.png" alt="userImg" width="50%">
-      <h1>Two step verification</h1>
-      <h4> Enter your mobile number starting with +54</h4>
-      <mat-form-field class="FieldWidth" appearance="fill">
-        <mat-label>Phone number</mat-label>
-        <input matInput autocomplete="off" [formControl]="phoneFormControl">
+    <img src="./assets/img/sms.png" alt="smsImg" width="45%">
+    <h1>Two step verification</h1>
+    <h4> Enter your phone number</h4>
+    <mat-form-field class="FieldWidth" appearance="fill">
+      <input type="text" matInput autocomplete="off" [formControl]="country" placeholder="54" maxlength="2">
+    </mat-form-field>
+    <mat-form-field class="FieldWidth" appearance="fill">
+      <input type="text" matInput autocomplete="off" [formControl]="area" placeholder="351" maxlength="3">
+    </mat-form-field>
+    <mat-form-field class="FieldWidth" appearance="fill">
+      <input type="text" matInput autocomplete="off" [formControl]="prefix" placeholder="522" maxlength="3">
+    </mat-form-field>
+    <mat-form-field class="FieldWidth" appearance="fill">
+      <input type="text" matInput autocomplete="off" [formControl]="line" placeholder="5678" maxlength="4">
+    </mat-form-field>
+
+    <div id="recaptcha-container" class="captcha"></div>
+    <button type="submit" mat-raised-button color="primary" (click)="sendLoginCode()">Send verification code</button>
+
+    <div *ngIf="windowRef.confirmationResult" class="code">
+      <h4>Enter the code you received below</h4>
+      <mat-form-field appearance="fill">
+        <mat-label>Verification code</mat-label>
+        <input type="text" matInput autocomplete="off" [formControl]="verificationCode" maxlength="6">
       </mat-form-field>
-      <button type="submit" class="FieldWidth" mat-raised-button color="primary"
-        [disabled]="phoneFormControl.invalid">Send verification code</button>
-    </form>
+      <button type="submit" mat-raised-button color="primary" (click)="verifyLoginCode()">Verify
+        code</button>
+    </div>
   </div>
 </div>

@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { UserService } from './../../services/user.services';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -9,10 +9,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
+
 export class RegisterComponent implements OnInit {
   form: FormGroup;
-
-  @Output() iniciar: EventEmitter<string> = new EventEmitter();
 
   constructor(
     private UserService: UserService,
