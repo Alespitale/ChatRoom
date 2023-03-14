@@ -62,7 +62,7 @@ export class SmsValidationComponent implements OnInit {
     return `+${num}`;
   }
 
-  sendLoginCode() {
+  onSendLoginCode() {
     const appVerifier = this.windowRef.recaptchaVerifier;
     const num = this.e164(
       this.country.value,
@@ -79,7 +79,7 @@ export class SmsValidationComponent implements OnInit {
       .catch((error) => console.log(error));
   }
 
-  verifyLoginCode() {
+  onVerifyLoginCode() {
     this.windowRef.confirmationResult
       .confirm(this.verificationCode.value)
       .then((res: any) => {
@@ -87,5 +87,20 @@ export class SmsValidationComponent implements OnInit {
         this.router.navigate(['/chat']);
       })
       .catch((err: any) => console.log(err, 'Incorrect code entered?'));
+  }
+
+  move(e:any, prev:any, curr:any, next:any) {
+    let len = curr.value.length;
+    let max = curr.getAttribute('maxlength');
+    if (len == max) {
+      if(next != ""){
+        next.focus();
+      }
+    }
+    if(e.key === "Backspace" && len == 0){
+      if(prev != ""){
+        prev.focus();
+      }
+    }
   }
 }

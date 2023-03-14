@@ -7,14 +7,8 @@
   padding: 10px;
 }
 
-.center {
+.container {
   width: 100%;
   max-width: 330px;
-  text-align: center; 
-}
-
-.FieldWidth {
-  width: 80%;
-  margin: 5px;
-  padding: 2px;
+  text-align: center;
 }

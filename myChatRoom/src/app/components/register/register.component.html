@@ -1,7 +1,7 @@
 <div class="body">
-  <div class="login">
-    <form [formGroup]="form" (ngSubmit)="signUp()">
-      <img src="./assets/img/user-profile.png" alt="userImg" width="50%">
+  <div class="center">
+    <form [formGroup]="form" (ngSubmit)="onSignUp()">
+      <img src="./assets/img/user-profile.png" alt="userRegImg" width="50%">
       <h1>Register to Chat Room</h1>
       <mat-form-field class="FieldWidth" appearance="fill">
         <mat-label>Email</mat-label>
@@ -13,7 +13,7 @@
       </mat-form-field>
       <button type="submit" class="FieldWidth" mat-raised-button color="primary"
         [disabled]="form.invalid">Register</button>
-      <p>Already have an account? <a href="/login">Sign in</a></p>
+      <p>Already have an account? <a routerLink="/login">Sign in</a></p>
     </form>
   </div>
 </div>

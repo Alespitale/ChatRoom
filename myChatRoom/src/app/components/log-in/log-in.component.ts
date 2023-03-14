@@ -30,7 +30,7 @@ export class LogInComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  signIn() {
+  onSignIn() {
     const email = this.form.get('email')?.value;
     const password = this.form.get('password')?.value;
     const validEmail =
@@ -42,14 +42,14 @@ export class LogInComponent implements OnInit {
           this.router.navigate(['/sms-validation']);
         })
         .catch((error) => {
-          console.log(error);
+          this.onError();
         });
     } else {
-      return this.error();
+      return this.onError();
     }
   }
 
-  error() {
+  onError() {
     this._snackbar.open('Email o contraseña incorrectos', 'Close', {
       duration: 3000,
       horizontalPosition: 'center',

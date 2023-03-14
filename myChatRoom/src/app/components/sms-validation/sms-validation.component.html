@@ -1,23 +1,27 @@
 <div class="body">
-  <div class="login">
+  <div class="center">
     <img src="./assets/img/sms.png" alt="smsImg" width="45%">
     <h1>Two step verification</h1>
     <h4> Enter your phone number</h4>
     <mat-form-field class="FieldWidth" appearance="fill">
-      <input type="text" matInput autocomplete="off" [formControl]="country" placeholder="54" maxlength="2">
+      <input type="text" #inp1 matInput autocomplete="off" [formControl]="country" placeholder="54" maxlength="2"
+        (keyup)="move($event, '', inp1, inp2)">
     </mat-form-field>
     <mat-form-field class="FieldWidth" appearance="fill">
-      <input type="text" matInput autocomplete="off" [formControl]="area" placeholder="351" maxlength="3">
+      <input type="text" #inp2 matInput autocomplete="off" [formControl]="area" placeholder="351" maxlength="3"
+        (keyup)="move($event, inp1, inp2, inp3)">
     </mat-form-field>
     <mat-form-field class="FieldWidth" appearance="fill">
-      <input type="text" matInput autocomplete="off" [formControl]="prefix" placeholder="522" maxlength="3">
+      <input type="text" #inp3 matInput autocomplete="off" [formControl]="prefix" placeholder="522" maxlength="3"
+        (keyup)="move($event, inp2, inp3, inp4)">
     </mat-form-field>
     <mat-form-field class="FieldWidth" appearance="fill">
-      <input type="text" matInput autocomplete="off" [formControl]="line" placeholder="5678" maxlength="4">
+      <input type="text" #inp4 matInput autocomplete="off" [formControl]="line" placeholder="5678" maxlength="4"
+        (keyup)="move($event, inp3, inp4, '')">
     </mat-form-field>
 
     <div id="recaptcha-container" class="captcha"></div>
-    <button type="submit" mat-raised-button color="primary" (click)="sendLoginCode()">Send verification code</button>
+    <button type="submit" mat-raised-button color="primary" (click)="onSendLoginCode()">Send verification code</button>
 
     <div *ngIf="windowRef.confirmationResult" class="code">
       <h4>Enter the code you received below</h4>
@@ -25,7 +29,7 @@
         <mat-label>Verification code</mat-label>
         <input type="text" matInput autocomplete="off" [formControl]="verificationCode" maxlength="6">
       </mat-form-field>
-      <button type="submit" mat-raised-button color="primary" (click)="verifyLoginCode()">Verify
+      <button type="submit" mat-raised-button color="primary" (click)="onVerifyLoginCode()">Verify
         code</button>
     </div>
   </div>

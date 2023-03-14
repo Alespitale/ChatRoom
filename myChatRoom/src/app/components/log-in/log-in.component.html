@@ -1,7 +1,7 @@
 <div class="body">
-  <div class="login">
-    <form [formGroup]="form" (ngSubmit)="signIn()">
-      <img src="./assets/img/user-profile.png" alt="userImg" width="50%">
+  <div class="center">
+    <form [formGroup]="form" (ngSubmit)="onSignIn()">
+      <img src="./assets/img/user-profile.png" alt="userLogImg" width="50%">
       <h1>Sign In to Chat Room</h1>
       <mat-form-field class="FieldWidth" appearance="fill">
         <mat-label>Email</mat-label>
@@ -15,6 +15,7 @@
     </form>
     <button class="FieldWidth" mat-raised-button color="primary" (click)="onGoogleLogin()"><img
         src="./assets/img/google.png" alt="googleImg" width="9%"> Sign in with Google</button>
-    <p>Don't have an account? <a href="/register">Sign Up</a></p>
+    <p>Don't have an account? <a routerLink="/register">Sign Up</a></p>
+    <p>Forgot password? <a routerLink="/forgot-pwd">Reset password</a></p>
   </div>
 </div>

@@ -22,6 +22,8 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { SmsValidationComponent } from './components/sms-validation/sms-validation.component';
+import { ForgotPwdComponent } from './components/forgot-pwd/forgot-pwd.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { SmsValidationComponent } from './components/sms-validation/sms-validati
     ChatComponent,
     RegisterComponent,
     SmsValidationComponent,
+    ForgotPwdComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,

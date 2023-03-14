@@ -8,6 +8,7 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   signInWithPhoneNumber,
+  sendPasswordResetEmail,
 } from '@angular/fire/auth';
 import {Firestore} from 'firebase/firestore';
 
@@ -18,26 +19,50 @@ import {Firestore} from 'firebase/firestore';
 export class UserService {
   constructor(
     private auth: Auth
-
   ) {}
 
-  register({ email, password }: any) {
-    return createUserWithEmailAndPassword(this.auth, email, password);
+  async register({ email, password }: any): Promise<any>{
+    try{
+      return await createUserWithEmailAndPassword(this.auth, email, password);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  login({ email, password }: any) {
-    return signInWithEmailAndPassword(this.auth, email, password);
+  async login({ email, password }: any): Promise<any>{
+    try{
+      return await signInWithEmailAndPassword(this.auth, email, password);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  phoneLogin({ phoneNumber, appVerifier }: any) {
-    return signInWithPhoneNumber(this.auth, phoneNumber, appVerifier);
+  async phoneLogin({ phoneNumber, appVerifier }: any): Promise<any>{
+    try{
+      return await signInWithPhoneNumber(this.auth, phoneNumber, appVerifier);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  loginWithGoogle() {
-    return signInWithPopup(this.auth, new GoogleAuthProvider());
+  async loginWithGoogle(): Promise<any>{
+    try{
+      return await signInWithPopup(this.auth, new GoogleAuthProvider());
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  logout() {
-    return signOut(this.auth);
+  async resetPassword(email: string): Promise<void> {
+    try {
+      return await sendPasswordResetEmail(this.auth, email);
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
+
+  async logout(): Promise<void> {
+    return await signOut(this.auth);
   }
 }

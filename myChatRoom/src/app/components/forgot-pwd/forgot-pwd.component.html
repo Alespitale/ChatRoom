@@ -1,0 +1,13 @@
+<div class="body">
+  <div class="center">
+    <img src="./assets/img/reset-password.png" alt="ForgotPasswordImg" width="50%">
+      <h1>Please enter your email</h1>
+      <mat-form-field class="FieldWidth" appearance="fill">
+        <mat-label>Email</mat-label>
+        <input type="email" matInput autocomplete="off" [formControl]="email">
+      </mat-form-field>
+      <button type="submit" class="FieldWidth" mat-raised-button color="primary"
+        [disabled]="email.invalid" (click)="onResetPwd()">Reset password</button>
+      <p>Already have an account? <a routerLink="/login">Sign in</a></p>
+  </div>
+</div>

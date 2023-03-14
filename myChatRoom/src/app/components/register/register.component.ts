@@ -27,7 +27,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  signUp() {
+  onSignUp() {
     const email = this.form.get('email')?.value;
     const password = this.form.get('password')?.value;
     const validEmail =
@@ -42,12 +42,12 @@ export class RegisterComponent implements OnInit {
           console.log(error);
         });
     } else {
-      return this.error();
+      return this.onError();
     }
   }
 
-  error() {
-    this._snackbar.open('Email o contraseña incorrectos', 'Close', {
+  onError() {
+    this._snackbar.open('Incorrect email format', 'Close', {
       duration: 3000,
       horizontalPosition: 'center',
       verticalPosition: 'bottom',
