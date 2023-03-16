@@ -1,0 +1,107 @@
+/* .bar-container{
+  display: flex;
+  justify-content: space-between;
+  background-color: #f5f5f5;
+  border-bottom: 1.5px solid #ccc;
+}
+
+.user-email{
+  display: flex;
+  justify-items: center;
+  text-align: center;
+  align-items: center;
+  font-size: 1rem;
+}
+
+.logout:hover, .send :hover{
+  cursor: pointer;
+  scale: 1.1;
+}
+
+.profileImg{
+  border-radius: 100%;
+  width: 40px;
+  height: 40px;
+  margin-right: 5px;
+}
+
+/* chat css */
+/* 
+.chat-container{
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  margin: 30px;
+  padding: 10px;
+  background-image: url(https://www.teahub.io/photos/full/73-736681_1920x1080-wallpaper-white-blue-gradient-linear-deep-electric.jpg);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 10px;
+}
+
+.chat-content{
+  height: 700px;
+  border-width: 1px;
+  border-radius: 10px;
+  border-style: solid;
+  padding: 10px;
+  background-image: url(https://i.pinimg.com/736x/b5/a7/1c/b5a71c9b319b399f7fd14ba77cef80cb.jpg);
+}
+
+.write-block{
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+}
+
+.inputField{
+  width: 100%;
+}
+
+.block-msg {
+  overflow: scroll;
+  max-height: 100%;
+  margin: 5px;
+}
+
+.block-msg::-webkit-scrollbar {
+  display: none;
+}
+
+.sended {
+  display: flex;
+  flex-direction: column;
+  float: right;
+  text-align: left;
+  min-width: 50.01%;
+  max-width: 50.01%;
+  margin: 2px;
+  border-radius: 12px;
+  padding: 5px;
+  color: white;
+  background-color: teal;
+}
+
+.received {
+  display: flex;
+  flex-direction: column;
+  float: left;
+  text-align: left;
+  min-width: 50.01%;
+  max-width: 50.01%;
+  margin: 2px;
+  border-radius: 12px;
+  padding: 5px;
+  color: white;
+  background-color: rgb(48, 48, 48);
+}
+
+.msg-time{
+  display: flex;
+  justify-content: flex-end;
+  font-size: 0.6rem;
+  color: #ccc;
+  margin-left: 15px;
+}
+ */
+

@@ -1,3 +1,4 @@
+import { SignupCredentials } from './../models/auth.model';
 import { Injectable } from '@angular/core';
 import {
   Auth,
@@ -9,32 +10,32 @@ import {
   GoogleAuthProvider,
   signInWithPhoneNumber,
   sendPasswordResetEmail,
+  updateProfile,
 } from '@angular/fire/auth';
-import {Firestore} from 'firebase/firestore';
+import { BehaviorSubject, from, Observable, of, switchMap} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 
-export class UserService {
+export class AuthService {
+
+  private authState = new BehaviorSubject<Object | null>(null);
+
+  readonly isLoggedIn$ = authState(this.auth);
+
   constructor(
     private auth: Auth
   ) {}
 
-  async register({ email, password }: any): Promise<any>{
-    try{
-      return await createUserWithEmailAndPassword(this.auth, email, password);
-    } catch (error) {
-      console.log(error);
-    }
+  register({ email, password, displayName }: SignupCredentials) {
+    return from(createUserWithEmailAndPassword(this.auth, email, password)).pipe( 
+      switchMap(({user}) => updateProfile(user, { displayName }))
+    );
   }
 
-  async login({ email, password }: any): Promise<any>{
-    try{
-      return await signInWithEmailAndPassword(this.auth, email, password);
-    } catch (error) {
-      console.log(error);
-    }
+  login({ email, password }: SignupCredentials){
+    return from(signInWithEmailAndPassword(this.auth, email, password));
   }
 
   async phoneLogin({ phoneNumber, appVerifier }: any): Promise<any>{
@@ -62,7 +63,11 @@ export class UserService {
     }
   }
 
-  async logout(): Promise<void> {
-    return await signOut(this.auth);
+  getLoggedUser(){
+    return authState(this.auth);
+  }
+
+  signOut(){
+    return from(this.auth.signOut());
   }
 }

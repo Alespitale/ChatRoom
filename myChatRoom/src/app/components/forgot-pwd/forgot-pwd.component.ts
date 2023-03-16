@@ -1,6 +1,6 @@
 import { FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/app/services/user.services';
+import { AuthService } from 'src/app/services/auth.services';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -17,7 +17,7 @@ export class ForgotPwdComponent implements OnInit {
   ]);
 
   constructor(
-    private userSvc: UserService,
+    private userSvc: AuthService,
     private router: Router,
     private _snackbar: MatSnackBar,
   ) { }

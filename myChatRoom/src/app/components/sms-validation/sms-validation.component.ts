@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/app/services/user.services';
+import { AuthService } from 'src/app/services/auth.services';
 import { Router } from '@angular/router';
 import { WindowService } from 'src/app/services/window.services';
 
@@ -10,7 +10,7 @@ import { FormControl, Validators } from '@angular/forms';
   selector: 'app-sms-validation',
   templateUrl: './sms-validation.component.html',
   styleUrls: ['./sms-validation.component.css'],
-  providers: [UserService, WindowService],
+  providers: [AuthService, WindowService],
 })
 export class SmsValidationComponent implements OnInit {
   country = new FormControl('', [
@@ -40,7 +40,7 @@ export class SmsValidationComponent implements OnInit {
 
   constructor(
     private win: WindowService,
-    private userSvc: UserService,
+    private userSvc: AuthService,
     private auth: Auth,
     private router: Router
   ) {}

@@ -1,1 +1,20 @@
-<router-outlet></router-outlet>
+<mat-toolbar color="primary">
+  <span>Chat Room</span>
+  <span class="spacer"></span>
+  <ng-container *ngIf="auth.isLoggedIn$ | async as user; else authButtons">
+    <span> {{ user?.displayName }} </span>
+    <img *ngIf="user.photoURL" [src]="user.photoURL" alt="" class="profileImg">
+    <button mat-button (click)="signOut()">
+      <img class="logout" src="./assets/img/logout.png" alt="logout" width="35">
+    </button>
+  </ng-container>
+</mat-toolbar>
+
+<main class="content">
+  <router-outlet></router-outlet>
+</main>
+
+<ng-template #authButtons>
+  <a mat-button routerLink="/login" routerLinkActive="active">Login</a>
+  <a mat-button routerLink="/register" routerLinkActive="active">Register</a>
+</ng-template>

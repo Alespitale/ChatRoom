@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
-import { UserService } from './../../services/user.services';
+import { AuthService } from '../../services/auth.services';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -11,39 +11,33 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 
 export class RegisterComponent implements OnInit {
-  form: FormGroup;
+  form!: FormGroup;
 
   constructor(
-    private UserService: UserService,
-    private fb: FormBuilder,
+    private AuthService: AuthService,
     private _snackbar: MatSnackBar,
     private router: Router
-  ) {
-    this.form = this.fb.group({
-      email: ['', Validators.required],
-      password: ['', Validators.required],
-    });
-  }
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.form = new FormGroup({
+      displayName: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+  })
+}
 
   onSignUp() {
-    const email = this.form.get('email')?.value;
-    const password = this.form.get('password')?.value;
-    const validEmail =
-      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    if (email.match(validEmail)) {
-      this.UserService.register({ email, password })
-        .then((res) => {
-          console.log(res);
-          this.router.navigate(['/login']);
-        })
-        .catch((error) => {
-          console.log(error);
+    this.AuthService.register(this.form.value).subscribe({
+      next: () => { this.router.navigate(['/sms-validation']); },
+      error: (err) => {
+        this._snackbar.open(err.message, 'Close', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
         });
-    } else {
-      return this.onError();
-    }
+      }
+    });
   }
 
   onError() {

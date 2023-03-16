@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  FormBuilder,
+  FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { UserService } from 'src/app/services/user.services';
+import { AuthService } from 'src/app/services/auth.services';
 
 @Component({
   selector: 'app-log-in',
@@ -14,36 +14,40 @@ import { UserService } from 'src/app/services/user.services';
   styleUrls: ['./log-in.component.css'],
 })
 export class LogInComponent implements OnInit {
-  form: FormGroup;
+  form!: FormGroup;
 
   constructor(
-    private UserService: UserService,
-    private fb: FormBuilder,
+    private AuthService: AuthService,
     private _snackbar: MatSnackBar,
     private router: Router
-  ) {
-    this.form = this.fb.group({
-      email: ['', Validators.required],
-      password: ['', Validators.required],
-    });
+  ) {;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.form = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    });
+
+  }
 
   onSignIn() {
     const email = this.form.get('email')?.value;
-    const password = this.form.get('password')?.value;
     const validEmail =
       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (email.match(validEmail)) {
-      this.UserService.login({ email, password })
-        .then((res) => {
-          console.log(res);
+      this.AuthService.login(this.form.value).subscribe({
+        next: () => {
           this.router.navigate(['/sms-validation']);
-        })
-        .catch((error) => {
-          this.onError();
-        });
+        },
+        error: (err) => {
+          this._snackbar.open(err.message, 'Close', {
+            duration: 3000,
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+          });
+        },
+      });
     } else {
       return this.onError();
     }
@@ -58,7 +62,7 @@ export class LogInComponent implements OnInit {
   }
 
   onGoogleLogin() {
-    this.UserService.loginWithGoogle()
+    this.AuthService.loginWithGoogle()
       .then((res) => {
         console.log(res);
         this.router.navigate(['/sms-validation']);
